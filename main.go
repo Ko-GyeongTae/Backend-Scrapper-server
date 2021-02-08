@@ -63,4 +63,7 @@ func main() {
 	result := superAdd(1,2,3,4,5,6,7)
 	fmt.Println(result)
 	fmt.Println(canIDrink(16))
+	names := []string{"ko" ," kt" ,"dal"}
+	names = append(names, "flynn")
+	fmt.Println(names)
 }
