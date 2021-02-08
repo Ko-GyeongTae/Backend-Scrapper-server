@@ -37,6 +37,12 @@ func _lenAndUpper(name string) (_length int, _uppercase string) {
 }
 
 func canIDrink(age int) bool {
+	switch age {
+	case 16:
+		fmt.Println("16살 입니다")
+	case 17:
+		fmt.Println("17살입니다")
+	}
 	if koreanAge := age + 1; koreanAge < 18 {
 		return false
 	}
