@@ -17,10 +17,18 @@ func repeatMe(words ...string){
 	fmt.Println((words))
 }
 
+func _lenAndUpper(name string) (_length int, _uppercase string) {
+	_length = len(name)
+	_uppercase = strings.ToUpper(name)
+	return 
+}
+
 func main() {
 	fmt.Println("Hello world")
 	fmt.Println(multiply(2,2))
 	totalLength, upperName := lenAndUpper("kokt")
 	fmt.Println(totalLength, upperName)
+	total, up := _lenAndUpper("kokt0203")
+	fmt.Println(total, up)
 	repeatMe("ko", "lee", "kang", "hyeon")
 }
