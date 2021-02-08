@@ -50,6 +50,9 @@ func canIDrink(age int) bool {
 }
 
 func main() {
+	a := 1
+	b := &a
+	fmt.Println(b)
 	fmt.Println("Hello world")
 	fmt.Println(multiply(2,2))
 	totalLength, upperName := lenAndUpper("kokt")
