@@ -12,9 +12,15 @@ func multiply (a int, b int) int {
 func lenAndUpper(name string) (int, string) {
 	return len(name), strings.ToUpper(name)
 }
+
+func repeatMe(words ...string){
+	fmt.Println((words))
+}
+
 func main() {
 	fmt.Println("Hello world")
 	fmt.Println(multiply(2,2))
 	totalLength, upperName := lenAndUpper("kokt")
 	fmt.Println(totalLength, upperName)
+	repeatMe("ko", "lee", "kang", "hyeon")
 }
