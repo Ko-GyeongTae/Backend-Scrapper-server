@@ -2,12 +2,19 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
+func multiply (a int, b int) int {
+	return a * b
+}
+
+func lenAndUpper(name string) (int, string) {
+	return len(name), strings.ToUpper(name)
+}
 func main() {
-	name := "ko"
-	var age int = 15
-	fmt.Println(name)
-	fmt.Println(age)
 	fmt.Println("Hello world")
+	fmt.Println(multiply(2,2))
+	totalLength, upperName := lenAndUpper("kokt")
+	fmt.Println(totalLength, upperName)
 }
