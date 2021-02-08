@@ -36,6 +36,13 @@ func _lenAndUpper(name string) (_length int, _uppercase string) {
 	return 
 }
 
+func canIDrink(age int) bool {
+	if koreanAge := age + 1; koreanAge < 18 {
+		return false
+	}
+	return true
+}
+
 func main() {
 	fmt.Println("Hello world")
 	fmt.Println(multiply(2,2))
@@ -46,4 +53,5 @@ func main() {
 	repeatMe("ko", "lee", "kang", "hyeon")
 	result := superAdd(1,2,3,4,5,6,7)
 	fmt.Println(result)
+	fmt.Println(canIDrink(16))
 }
