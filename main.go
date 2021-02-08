@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/Ko-Gyeongtae/learngo/something"
 )
 
 func main() {
+	name := "ko"
+	var age int = 15
+	fmt.Println(name)
+	fmt.Println(age)
 	fmt.Println("Hello world")
-	something.SayHello()
 }
