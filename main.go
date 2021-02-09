@@ -49,6 +49,12 @@ func canIDrink(age int) bool {
 	return true
 }
 
+type person struct {
+	name string
+	age int
+	favFood []string
+}
+
 func main() {
 	//Pointer
 	a := 1
@@ -88,5 +94,7 @@ func main() {
 	}
 
 	//Structs
-	
+	favFood := []string{"kimchi", "ramen"}
+	nicolas := person{"nico", 18, favFood}
+	fmt.Println(nicolas)
 }
