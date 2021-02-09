@@ -95,6 +95,6 @@ func main() {
 
 	//Structs
 	favFood := []string{"kimchi", "ramen"}
-	nicolas := person{"nico", 18, favFood}
+	nicolas := person{name:"nico", age:18, favFood:favFood}
 	fmt.Println(nicolas)
 }
