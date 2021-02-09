@@ -50,25 +50,43 @@ func canIDrink(age int) bool {
 }
 
 func main() {
+	//Pointer
 	a := 1
 	b := &a
 	fmt.Println(b)
+
+	//fmt.Println
 	fmt.Println("Hello world")
+
+	//function part one
 	fmt.Println(multiply(2,2))
+
+	//function part one multi return value
 	totalLength, upperName := lenAndUpper("kokt")
 	fmt.Println(totalLength, upperName)
+
+	//function part two
 	total, up := _lenAndUpper("kokt0203")
 	fmt.Println(total, up)
+
+	//for, range
 	repeatMe("ko", "lee", "kang", "hyeon")
 	result := superAdd(1,2,3,4,5,6,7)
 	fmt.Println(result)
 	fmt.Println(canIDrink(16))
 	names := []string{"ko" ," kt" ,"dal"}
+
+	//Arrays and Slices
 	names = append(names, "flynn")
 	fmt.Println(names)
+
+	//Maps
 	nico := map[string]string{"name": "nico", "age": "12"}
 	fmt.Println(nico)
 	for key, value := range nico {
 		fmt.Println(key, value)
 	}
+
+	//Structs
+	
 }
