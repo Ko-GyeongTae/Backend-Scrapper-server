@@ -2,6 +2,19 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/Ko-Gyeongtae/learngo/accounts"
+)
+
+//#2.0 Bank ToyProject
+func main () {
+	account := accounts.NewAccount("ko")
+	fmt.Println(account)
+}
+
+/*
+import (
+	"fmt"
 	"strings"
 )
 
@@ -98,3 +111,4 @@ func main() {
 	nicolas := person{name:"nico", age:18, favFood:favFood}
 	fmt.Println(nicolas)
 }
+*/
