@@ -9,7 +9,8 @@ import (
 //#2.0 Bank ToyProject
 func main () {
 	account := accounts.NewAccount("ko")
-	fmt.Println(account)
+	account.Deposit(10)
+	fmt.Println(account.Balance())
 }
 
 /*
