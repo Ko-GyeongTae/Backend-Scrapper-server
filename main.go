@@ -3,10 +3,27 @@ package main
 import (
 	"fmt"
 
+	"github.com/Ko-Gyeongtae/learngo/mydict"
+)
+
+func main() {
+	dictionary := mydict.Dictionary{"first":"First word"}
+	definition, err := dictionary.Search("second")
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(definition)
+	}
+}
+
+/*
+//#2.0 Bank ToyProject
+import (
+	"fmt"
+
 	"github.com/Ko-Gyeongtae/learngo/accounts"
 )
 
-//#2.0 Bank ToyProject
 func main () {
 	account := accounts.NewAccount("ko")
 	account.Deposit(10)
@@ -17,7 +34,7 @@ func main () {
 	}
 	fmt.Println(account.Balance(), account.Owner())
 }
-
+*/
 /*
 import (
 	"fmt"
