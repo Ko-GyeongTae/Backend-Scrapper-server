@@ -40,7 +40,7 @@ func (a *Account) Withdraw(amount int) error {
 	return nil
 }
 
-// Change Owner of the account
+// ChangeOwner of the account
 func (a *Account) ChangeOwner(newOwner string){
 	a.owner = newOwner
 }
