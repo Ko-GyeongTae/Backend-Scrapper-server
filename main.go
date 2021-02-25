@@ -31,3 +31,28 @@ func Count(person string) {
 	}
 }
 */
+
+package main
+
+import (
+	"log"
+	"net/http"
+)
+
+var baseURL string = "https://kr.indeed.com/jobs?q=python&limit=50"
+
+func main(){
+	pages := getPages()
+	println(pages)
+}
+
+func getPages() int {
+	res, err := http.Get(baseURL)
+	if err != nil{
+		log.Fatalln(err)
+	}
+	if res.StatusCode != 200 {
+		log.Fatalln("Request failed with Status:", res.StatusCode)
+	}
+	return 0
+}
