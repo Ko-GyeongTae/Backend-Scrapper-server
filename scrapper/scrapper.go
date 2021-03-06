@@ -32,7 +32,7 @@ func Count(person string) {
 }
 */
 
-package main
+package scrapper
 
 import (
 	"encoding/csv"
@@ -54,9 +54,9 @@ type extractedJob struct {
 	summary string
 }
 
-var baseURL string = "https://kr.indeed.com/jobs?q=python&limit=50"
-
-func main(){
+// Scrape Indeed bby a term
+func Scrape(term string){
+	var baseURL string = "https://kr.indeed.com/jobs?" + term + "&limit=50"
 	var jobs []extractedJob
 	c := make(chan []extractedJob)
 	totalPages := getPages()
