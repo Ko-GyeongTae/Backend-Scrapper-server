@@ -57,14 +57,13 @@ type extractedJob struct {
 var baseURL string
 // Scrape Indeed bby a term
 func Scrape(term string){
-	baseURL = "https://kr.indeed.com/jobs?" + term + "&limit=50"
+	baseURL = "https://kr.indeed.com/jobs?q=" + term + "&limit=50"
 	var jobs []extractedJob
 	c := make(chan []extractedJob)
 	totalPages := getPages()
 
 	for i := 0; i< totalPages; i++ {
 		go getPage(i, c)
-		
 	}
 
 	for i := 0; i < totalPages; i++{
