@@ -1,21 +1,22 @@
 package main
 
 import (
+	"os"
 	"strings"
 
 	"github.com/Ko-Gyeongtae/learngo/scrapper"
 	"github.com/labstack/echo"
 )
 
-func handleHome(c echo.Context) error {
+func handleHome(c echo.Context) error { //홈화면 html 호출
 	return c.File("home.html")
 }
 
-func handleScrape(c echo.Context) error {
+func handleScrape(c echo.Context) error { //검색후 파일 다운로드
+	defer os.Remove("jobs.csv") //파일 삭제 
 	term := strings.ToLower(scrapper.CleanString(c.FormValue("term")))
-	//fmt.Println(term)
-	scrapper.Scrape(term)
-	return c.Attachment("jobs.csv", "jobs.csv")
+	scrapper.Scrape(term) // 스크래핑
+	return c.Attachment("jobs.csv", "jobs.csv") //파일 다운로드
 }
 
 func main(){

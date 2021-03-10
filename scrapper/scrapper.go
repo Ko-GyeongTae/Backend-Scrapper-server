@@ -56,35 +56,35 @@ type extractedJob struct {
 
 var baseURL string
 // Scrape Indeed bby a term
-func Scrape(term string){
-	baseURL = "https://kr.indeed.com/jobs?q=" + term + "&limit=50"
+func Scrape(term string){ //스크랩
+	baseURL = "https://kr.indeed.com/jobs?q=" + term + "&limit=50" //검색 50제한
 	var jobs []extractedJob
 	c := make(chan []extractedJob)
-	totalPages := getPages()
+	totalPages := getPages() //총 페이지 수
 
 	for i := 0; i< totalPages; i++ {
-		go getPage(i, c)
+		go getPage(i, c) // 페이지 정보 스크랩
 	}
 
 	for i := 0; i < totalPages; i++{
-		extractedJob := <- c
+		extractedJob := <- c // 페이지 정보 저장
 		jobs = append(jobs, extractedJob...)
 	}
 
-	writeJobs(jobs)
+	writeJobs(jobs) // 파일 작성
 	fmt.Println("Done, extracted", len(jobs))
 }
 
 func getPage(page int, mainC chan<- []extractedJob) {
 	var jobs []extractedJob
 	c := make(chan extractedJob)
-	pageURL := baseURL + "&start=" + strconv.Itoa(page*50)
+	pageURL := baseURL + "&start=" + strconv.Itoa(page*50) 
 	fmt.Println("Requesting", pageURL)
 	res, err := http.Get(pageURL)
 	checkErr(err)
 	checkCode(res)
 
-	defer res.Body.Close()
+	defer res.Body.Close() // 함수 종료후 응답 body close 
 
 	doc, err := goquery.NewDocumentFromReader(res.Body)
 	checkErr(err)
@@ -103,13 +103,13 @@ func getPage(page int, mainC chan<- []extractedJob) {
 	mainC <- jobs
 }
 
-func extractJob(card *goquery.Selection, c chan<- extractedJob) {
+func extractJob(card *goquery.Selection, c chan<- extractedJob) { // 엑셀 파일 작성
 	id, _ := card.Attr("data-jk")
 	title := CleanString(card.Find(".title>a").Text())
 	location := CleanString(card.Find(".sjcl").Text())
 	salary := CleanString(card.Find(".salartText").Text())
 	summary := CleanString(card.Find(".summary").Text())
-	c <- extractedJob{
+	c <- extractedJob{ // 정보 객체 
 		id: id,
 		title: title,
 		location: location,
@@ -118,11 +118,11 @@ func extractJob(card *goquery.Selection, c chan<- extractedJob) {
 	}
 }
 
-func CleanString(str string) string {
+func CleanString(str string) string { //스페이스, 탭 제거
 	return strings.Join(strings.Fields(strings.TrimSpace(str)), " ")
 }
 
-func getPages() int {
+func getPages() int { //페이지 측정
 	pages := 0
 	res, err := http.Get(baseURL)
 	checkErr(err)
@@ -139,7 +139,7 @@ func getPages() int {
 	return pages
 }
 
-func writeJobs(jobs []extractedJob){
+func writeJobs(jobs []extractedJob){ // 파일 작성시작
 	file, err := os.Create("jobs.csv")
 	checkErr(err)
 
@@ -160,18 +160,18 @@ func writeJobs(jobs []extractedJob){
 	}
 }
 
-func writeFile(jobSlice []string, w *csv.Writer){
+func writeFile(jobSlice []string, w *csv.Writer){ //파일 작성
 	jwErr := w.Write(jobSlice)
 	checkErr(jwErr)
 }
 
-func checkErr(err error) {
+func checkErr(err error) { //에러 처리
 	if err != nil {
 		log.Fatalln(err)
 	}
 }
 
-func checkCode(res *http.Response) {
+func checkCode(res *http.Response) { // 에러 출력
 	if res.StatusCode != 200 {
 		log.Fatalln("Request failed with Status:", res.StatusCode)
 	}
