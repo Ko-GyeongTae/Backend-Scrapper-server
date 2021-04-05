@@ -47,27 +47,28 @@ import (
 )
 
 type extractedJob struct {
-	id string
+	id       string
 	location string
-	title string
-	salary string
-	summary string
+	title    string
+	salary   string
+	summary  string
 }
 
 var baseURL string
+
 // Scrape Indeed bby a term
-func Scrape(term string){ //스크랩
+func Scrape(term string) { //스크랩
 	baseURL = "https://kr.indeed.com/jobs?q=" + term + "&limit=50" //검색 50제한
 	var jobs []extractedJob
 	c := make(chan []extractedJob)
 	totalPages := getPages() //총 페이지 수
 
-	for i := 0; i< totalPages; i++ {
+	for i := 0; i < totalPages; i++ {
 		go getPage(i, c) // 페이지 정보 스크랩
 	}
 
-	for i := 0; i < totalPages; i++{
-		extractedJob := <- c // 페이지 정보 저장
+	for i := 0; i < totalPages; i++ {
+		extractedJob := <-c // 페이지 정보 저장
 		jobs = append(jobs, extractedJob...)
 	}
 
@@ -78,20 +79,20 @@ func Scrape(term string){ //스크랩
 func getPage(page int, mainC chan<- []extractedJob) {
 	var jobs []extractedJob
 	c := make(chan extractedJob)
-	pageURL := baseURL + "&start=" + strconv.Itoa(page*50) 
+	pageURL := baseURL + "&start=" + strconv.Itoa(page*50)
 	fmt.Println("Requesting", pageURL)
 	res, err := http.Get(pageURL)
 	checkErr(err)
 	checkCode(res)
 
-	defer res.Body.Close() // 함수 종료후 응답 body close 
+	defer res.Body.Close() // 함수 종료후 응답 body close
 
 	doc, err := goquery.NewDocumentFromReader(res.Body)
 	checkErr(err)
 
 	searchCards := doc.Find(".jobsearch-SerpJobCard")
 
-	searchCards.Each(func(i int, card *goquery.Selection){
+	searchCards.Each(func(i int, card *goquery.Selection) {
 		go extractJob(card, c)
 	})
 
@@ -99,7 +100,7 @@ func getPage(page int, mainC chan<- []extractedJob) {
 		job := <-c
 		jobs = append(jobs, job)
 	}
-	
+
 	mainC <- jobs
 }
 
@@ -109,12 +110,12 @@ func extractJob(card *goquery.Selection, c chan<- extractedJob) { // 엑셀 파�
 	location := CleanString(card.Find(".sjcl").Text())
 	salary := CleanString(card.Find(".salartText").Text())
 	summary := CleanString(card.Find(".summary").Text())
-	c <- extractedJob{ // 정보 객체 
-		id: id,
-		title: title,
+	c <- extractedJob{ // 정보 객체
+		id:       id,
+		title:    title,
 		location: location,
-		salary: salary,
-		summary: summary,
+		salary:   salary,
+		summary:  summary,
 	}
 }
 
@@ -133,13 +134,13 @@ func getPages() int { //페이지 측정
 	doc, err := goquery.NewDocumentFromReader(res.Body)
 	checkErr(err)
 
-	doc.Find(".pagination").Each(func(i int, s *goquery.Selection){
+	doc.Find(".pagination").Each(func(i int, s *goquery.Selection) {
 		pages = s.Find("a").Length()
 	})
 	return pages
 }
 
-func writeJobs(jobs []extractedJob){ // 파일 작성시작
+func writeJobs(jobs []extractedJob) { // 파일 작성시작
 	file, err := os.Create("jobs.csv")
 	checkErr(err)
 
@@ -160,7 +161,7 @@ func writeJobs(jobs []extractedJob){ // 파일 작성시작
 	}
 }
 
-func writeFile(jobSlice []string, w *csv.Writer){ //파일 작성
+func writeFile(jobSlice []string, w *csv.Writer) { //파일 작성
 	jwErr := w.Write(jobSlice)
 	checkErr(jwErr)
 }
